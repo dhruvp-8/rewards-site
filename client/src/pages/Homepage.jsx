@@ -37,21 +37,21 @@ const Homepage = () => {
 
     };
 
-    const removeItem = useCallback(
-        (itemId) => {
-            var list = items;
-            for(const item in list){
-                const i = list[item]
-                if(i.id == itemId){
-                    i.status = "Rewards"
-                }
-            }
-            setItems(list)
-            const listItem = listItems;
-            listItem.push(list)
-            setListItems(listItem)
-        }
-    );
+    // const removeItem = useCallback(
+    //     (itemId) => {
+    //         var list = items;
+    //         for(const item in list){
+    //             const i = list[item]
+    //             if(i.id == itemId){
+    //                 i.status = "Rewards"
+    //             }
+    //         }
+    //         setItems(list)
+    //         const listItem = listItems;
+    //         listItem.push(list)
+    //         setListItems(listItem)
+    //     }
+    // );
 
     const undoList = useCallback(
         event => {
@@ -105,7 +105,7 @@ const Homepage = () => {
                                 <Col>
                                     {items
                                         .filter(i => i.status === s.status)
-                                        .map((i, idx) => <Item key={i.id} item={i} index={idx} moveItem={moveItem} removeItem={removeItem} status={s} />)
+                                        .map((i, idx) => <Item key={i.id} item={i} index={idx} moveItem={moveItem} status={s} />)
                                     }
                                 </Col>
                             </DropWrapper>
