@@ -12,6 +12,10 @@ body {
     margin: 0;
 }
 
+.buttons{
+    margin-top: 2px;
+}
+
 a {
     color: unset;
     text-decoration: unset;
