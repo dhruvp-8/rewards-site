@@ -4,8 +4,8 @@
   "description": "",
   "main": "client/src/index.js",
   "scripts": {
-    "build": "webpack --config webpack.config.js",
-    "start": "nodemon server/index.js"
+    "start": "nodemon server/index.js",
+    "heroku-postbuild": "webpack -p"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.28",
