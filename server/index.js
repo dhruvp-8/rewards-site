@@ -7,6 +7,8 @@ const config = require(path.join(__dirname, "../webpack.config.js"));
 const compiler = webpack(config);
 const app = express();
 
+var port = process.env.PORT || 3000;
+
 app.use(webpackDevMiddleware(compiler, config.devServer));
 app.use(webpackHotMiddleware(compiler));
 app.use(express.static(path.join(__dirname, '../build')));
@@ -15,4 +17,4 @@ app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, '../build', 'index.html'));
 });
 
-app.listen(4000);
+app.listen(port);
