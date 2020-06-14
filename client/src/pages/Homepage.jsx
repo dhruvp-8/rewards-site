@@ -4,12 +4,14 @@ import DropWrapper from "../components/DropWrapper";
 import Col from "../components/Col";
 import { data, statuses } from "../data";
 import SaveBoard from "../components/SaveBoard";
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import UndoBoard from "../components/UndoBoard";
+import RedoBoard from "../components/RedoBoard";
 
 const Homepage = () => {
     const [items, setItems] = useState(data)
     const [listItems, setListItems] = useState([])
+    const [redoItems, setRedoItems] = useState([])
 
     const stateObjects = []
 
@@ -32,7 +34,7 @@ const Homepage = () => {
 
         });
         const list = listItems;
-        list.push(items)
+        list.push(items);
         setListItems(list);
 
     };
@@ -57,15 +59,38 @@ const Homepage = () => {
         event => {
             event.preventDefault();
             const indexCurrent = listItems.length
-            if( listItems.length !== 0) {
+            if (listItems.length !== 0) {
+                const reList = redoItems;
+                reList.push(items);
+                setRedoItems(reList);
+                console.log(reList)
+
                 setItems(listItems[indexCurrent - 1])
                 var list = listItems;
                 list.pop()
-                console.log(list)
                 setListItems(list)
             }
-            else{
-                alert('no further undo possible')
+            else {
+                toast.error('No further Undo is possible!')
+            }
+        },
+        [items]
+    );
+
+
+    const redoList = useCallback(
+        event => {
+            event.preventDefault();
+            const indexCurrent = redoItems.length;
+            if (redoItems.length !== 0) {
+                setItems(redoItems[indexCurrent - 1])
+                var list = redoItems;
+                list.pop()
+                console.log(list)
+                setRedoItems(list)
+            }
+            else {
+                toast.error('No further Redo is possible!')
             }
         },
         [items]
@@ -87,9 +112,10 @@ const Homepage = () => {
         <div>
             <SaveBoard data={items} />
             <UndoBoard data={items} undoList={undoList}/>
+            <RedoBoard data={items} redoList={redoList} />
             <ToastContainer
                 position="top-right"
-                autoClose={1000}
+                autoClose={2000}
                 hideProgressBar={false}
                 newestOnTop={false}
                 closeOnClick

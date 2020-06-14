@@ -11,7 +11,7 @@ class UndoBoard extends Component {
     render() {
         return (
             <div>
-                <button className={"save-btn"} onClick={(event) => this.props.undoList(event)}>Undo</button>
+                <button className={"undo-btn"} onClick={(event) => this.props.undoList(event)}>Undo</button>
             </div>
         )
     }

@@ -221,3 +221,32 @@ a.button6 {
     display: inline-block;
     font-size: 16px;
 }
+
+
+.undo-btn {
+    position: absolute;
+    left: 10%;
+    top: 85px;
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.redo-btn {
+    position: absolute;
+    left: 17%;
+    top: 85px;
+    background-color: #ffc107; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
