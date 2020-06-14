@@ -1,13 +1,16 @@
-import React, {Fragment, useState, useRef} from 'react';
+import React, { Fragment, useState, useRef, useEffect, useCallback} from 'react';
 import {useDrag, useDrop} from 'react-dnd';
 import Window from "./Window";
 import ITEM_TYPE from "../data/types";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faWindowClose } from '@fortawesome/free-solid-svg-icons'
 
-const Item = ({ item, index, moveItem, status}) => {
+const Item = ({ item, index, moveItem, status, removeItem}) => {
 
     const ref = useRef(null);
+    const onRemove = (item_id) => {
+        removeItem(item_id);
+    }
 
     const [, drop] = useDrop({
         accept: ITEM_TYPE,
@@ -35,7 +38,7 @@ const Item = ({ item, index, moveItem, status}) => {
             if (dragIndex > hoverIndex && hoverClientY < hoverMiddleY) {
                 return;
             }
-
+            console.log(dragIndex, hoverIndex)
             moveItem(dragIndex, hoverIndex);
             item.index = hoverIndex;
         }
@@ -67,7 +70,7 @@ const Item = ({ item, index, moveItem, status}) => {
                 <div className={"color-bar"} style={{backgroundColor: status.color}}></div>
                 <div className={"close-btn-ctn"}>
                     <p className={"item-title"}>{item.content}</p>
-                    <button className="close-btn"><FontAwesomeIcon icon={faWindowClose} size="xs" color="red" /></button>
+                    <button className="close-btn" onClick={() => onRemove(item.id)}><FontAwesomeIcon icon={faWindowClose} size="xs" color="red" /></button>
                 </div>
                 <p className={"item-status"}>{item.status}</p>
             </div>

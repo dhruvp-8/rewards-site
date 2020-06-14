@@ -7,6 +7,7 @@ import SaveBoard from "../components/SaveBoard";
 import { ToastContainer, toast } from 'react-toastify';
 import UndoBoard from "../components/UndoBoard";
 import RedoBoard from "../components/RedoBoard";
+import { useDrag, useDrop } from 'react-dnd';
 
 const Homepage = () => {
     const [items, setItems] = useState(data)
@@ -39,21 +40,33 @@ const Homepage = () => {
 
     };
 
-    // const removeItem = useCallback(
-    //     (itemId) => {
-    //         var list = items;
-    //         for(const item in list){
-    //             const i = list[item]
-    //             if(i.id == itemId){
-    //                 i.status = "Rewards"
-    //             }
-    //         }
-    //         setItems(list)
-    //         const listItem = listItems;
-    //         listItem.push(list)
-    //         setListItems(listItem)
-    //     }
-    // );
+    const array_move = (arr, old_index, new_index) => {
+        if (new_index >= arr.length) {
+            var k = new_index - arr.length + 1;
+            while (k--) {
+                arr.push(undefined);
+            }
+        }
+        arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+        return arr;
+    };
+
+    const removeItem = 
+    (itemId) => {
+        const currentlist = items
+        var index = 0
+        for (var i = 0; i < currentlist.length; i++) {
+            if (currentlist[i].id == itemId) {
+                currentlist[i].status = "Rewards"
+                index = i
+            }
+        }
+
+        array_move(currentlist, index, 0)
+        setItems([...currentlist])
+
+    }
+
 
     const undoList = useCallback(
         event => {
@@ -63,7 +76,6 @@ const Homepage = () => {
                 const reList = redoItems;
                 reList.push(items);
                 setRedoItems(reList);
-                console.log(reList)
 
                 setItems(listItems[indexCurrent - 1])
                 var list = listItems;
@@ -86,7 +98,6 @@ const Homepage = () => {
                 setItems(redoItems[indexCurrent - 1])
                 var list = redoItems;
                 list.pop()
-                console.log(list)
                 setRedoItems(list)
             }
             else {
@@ -98,6 +109,7 @@ const Homepage = () => {
 
     const moveItem = (dragIndex, hoverIndex) => {
         const item = items[dragIndex];
+        console.log(dragIndex, hoverIndex)
         setItems(prevState => {
             const newItems = prevState.filter((i, idx) => idx !== dragIndex);
             newItems.splice(hoverIndex, 0, item);
@@ -131,7 +143,7 @@ const Homepage = () => {
                                 <Col>
                                     {items
                                         .filter(i => i.status === s.status)
-                                        .map((i, idx) => <Item key={i.id} item={i} index={idx} moveItem={moveItem} status={s} />)
+                                        .map((i, idx) => <Item key={i.id} item={i} index={idx} moveItem={moveItem} status={s} removeItem={removeItem} />)
                                     }
                                 </Col>
                             </DropWrapper>
